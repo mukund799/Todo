@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react'
+import { useEffect , useState } from 'react'
 import './App.css'
 import { TodoProvider } from './context/TodoContext'
 import TodoForm from './component/TodoForm'
@@ -10,9 +10,15 @@ function App() {
   // initilising updateTodo function
   function updateTodo(id,msg){
     console.log(" updated todo function called ", id, " msg is ",msg);
+    setTodos(
+      todos.map(
+      (item) => item.id === id ? { ...item, text : msg }: item
+      )
+    )
   }
 
   // defining the remove todo function
+
   function removeTodo(id){
     setTodos( 
       (prev) => prev.filter(
@@ -26,6 +32,7 @@ function App() {
   function saveTodo(msg){
     setTodos([...todos, {id:Date.now() , text: msg, completed: false}]);
   }
+
   function toggleComplete(id){
     setTodos((prev) => 
         prev.map((prevTodo) => 
@@ -33,10 +40,18 @@ function App() {
             completed: !prevTodo.completed } : prevTodo))
   }
   
+  useEffect(() => {
+    const todos = JSON.parse(localStorage.getItem("val"))
 
-  // useEffect(
-  //   ()=>{},[todos.completed]
-  // )
+    if (todos && todos.length > 0) {
+      setTodos(todos)
+    }
+  }, [])
+
+  useEffect(
+    ()=>{ localStorage.setItem("val",JSON.stringify(todos)) },[todos]
+  )
+  
   return (
     < TodoProvider value={{todos, setTodos, saveTodo, updateTodo, removeTodo,toggleComplete}} >
       <div className="bg-[#172842] min-h-screen py-8">

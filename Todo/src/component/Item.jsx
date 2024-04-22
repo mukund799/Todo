@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import UseTodo from "../context/TodoContext";
 
 export default function Item({ todo }) {
-    console.log(" item functiom ", todo);
+    const [isTodoEditable, setIsTodoEditable] = useState(false);
+
+    const [ todoMsg , setTodoMsg] = useState(todo.text);
+
+    const {removeTodo,updateTodo,todos,setTodos, toggleComplete } = UseTodo();
+
+
+    console.log(" item functiom ", todo, " isToedtible value is ", isTodoEditable);
     // const tg = (id) =>{setTodos((prev) => 
     //     prev.map((prevTodo) => 
     //     prevTodo.id === id ? { ...prevTodo, 
@@ -16,11 +23,13 @@ export default function Item({ todo }) {
         prev.map((prevTodo) => 
         prevTodo.id === id ? { ...prevTodo, 
             completed: !prevTodo.completed } : prevTodo))
- }
-    const [isTodoEditable, setIsTodoEditable] = useState(false);
-    const [ todoMsg , setTodoMsg] = useState(todo.text);
+    }
 
-    const {removeTodo,updateTodo,todos,setTodos, toggleComplete } = UseTodo();
+    const editTodo = () => {
+        updateTodo(todo.id, todoMsg);
+        setIsTodoEditable( prev => !prev)
+    }
+    
     return (
         <div
             className={`flex border border-black/10 rounded-lg px-3 py-1.5 gap-x-3 shadow-sm shadow-white/50 duration-300  text-black ${
@@ -49,8 +58,8 @@ export default function Item({ todo }) {
                     if (todo.completed) return;
 
                     if (isTodoEditable) {
-                        // editTodo();
-                        updateTodo();
+                        editTodo();
+                        
                     } else setIsTodoEditable((prev) => !prev);
                 }}
                 disabled={todo.completed}
