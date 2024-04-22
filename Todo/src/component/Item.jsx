@@ -1,17 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UseTodo from "../context/TodoContext";
 
 export default function Item({ todo }) {
-    console.log(" item function val: ", todo);
-    const toggleCompleted = () =>{ console.log(" togglecompleted function");}
-    const [isTodoEditable, setIsTodoEditable] = useState(false);
-    const [ todoMsg , setTodoMsg] = useState("");
+    console.log(" item functiom ", todo);
+    // const tg = (id) =>{setTodos((prev) => 
+    //     prev.map((prevTodo) => 
+    //     prevTodo.id === id ? { ...prevTodo, 
+    //         completed: !prevTodo.completed } : prevTodo))}
 
-    const {removeTodo,updateTodo } = UseTodo();
+    // changing the bg color when wee checked mark
+
+    const toggleCompleted = ( ) =>{
+        const id = todo.id;
+        setTodos((prev) => 
+        prev.map((prevTodo) => 
+        prevTodo.id === id ? { ...prevTodo, 
+            completed: !prevTodo.completed } : prevTodo))
+ }
+    const [isTodoEditable, setIsTodoEditable] = useState(false);
+    const [ todoMsg , setTodoMsg] = useState(todo.text);
+
+    const {removeTodo,updateTodo,todos,setTodos, toggleComplete } = UseTodo();
     return (
         <div
             className={`flex border border-black/10 rounded-lg px-3 py-1.5 gap-x-3 shadow-sm shadow-white/50 duration-300  text-black ${
-                todo.completed ? "bg-[#c6e9a7]" : "bg-[#ccbed7]"
+                todo.completed ? "bg-[#db5a37]" : "bg-[#ccbed7]"
             }`}
         >
             <input
