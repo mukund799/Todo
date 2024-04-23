@@ -14,7 +14,18 @@ function TodoForm() {
 
     // saveMsg functon defnition
 
-    const saveMsg = (e) => { e.preventDefault() ; useTodo.saveTodo(msg); setMsg("")}
+    const saveMsg = (e) => { 
+        e.preventDefault() ;
+
+        const finalMsg = msg.trim();
+        if(finalMsg.length >0){
+            useTodo.saveTodo(finalMsg);
+            setMsg("");
+        }
+        else{
+            alert(" minimum one charactershould be enter");
+        }
+    }
 
     return (
         <form onSubmit={saveMsg}  className="flex">
