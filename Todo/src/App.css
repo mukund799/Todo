@@ -40,3 +40,14 @@
 .read-the-docs {
   color: #888;
 }
+
+.item-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.main-box {
+  width: 400px;
+}
+
